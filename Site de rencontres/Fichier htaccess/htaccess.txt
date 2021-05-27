@@ -1,0 +1,57 @@
+#
+# @author Sitedudev
+#
+
+## Pour réécrire les noms des pages
+Options +FollowSymlinks -MultiViews
+RewriteEngine on
+#RewriteBase /
+ 
+## Redirection non-www vers www:
+#RewriteCond %{HTTP_HOST} !^www\. [NC]
+#RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+ 
+## Redirection de http vers https:
+#RewriteCond %{HTTPS} off
+#RewriteRule (.*) https://%{HTTP_HOST}/$1 [R=301,L]
+ 
+## Sauf répertoire, supprimez la barre oblique
+#RewriteEngine On
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^([^/]+)/$ http://%{HTTP_HOST}/$1 [R=301,L]
+ 
+## Rediriger les pages .php vers une URL sans extension
+RewriteCond %{THE_REQUEST} ^(.+)\.php([#?][^\ ]*)?\ HTTP/
+RewriteRule ^(.+)\.php$ http://%{HTTP_HOST}/$1 [R=301,L]
+ 
+## Ajouter une extension si le fichier php existe
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]
+ 
+## Réécriture des pages
+
+## PAGES DE LA RACINE 
+
+RewriteRule ^inscription$                             signup
+RewriteRule ^connexion$                               login
+RewriteRule ^deconnexion$                             logout
+
+## PAGES DU DOSSIER _PROFILE
+
+RewriteRule ^profil$                             _profile/profile
+RewriteRule ^profil/demandes$                    _profile/request
+RewriteRule ^profil/([a-zA-Z0-9]+)$ 		     _profile/visitor?guid=$1
+RewriteRule ^profil/([a-zA-Z0-9]+)/([0-9]+)$      _profile/image?guid=$1&num=$2
+RewriteRule ^parametres$             		     _profile/u_settings
+RewriteRule ^photo/([0-9]+)$             		 _profile/picture?num=$1
+
+
+## PAGES DU DOSSIER _MESSAGERIE
+RewriteRule ^messagerie$                             _messagerie/boite
+RewriteRule ^messagerie/([a-zA-Z0-9]+)$              _messagerie/message?guid=$1
+RewriteRule ^messagerie/send-message$                _ajax/send_message [L,R=301]
+
+
+## PAGES AUTRES
+#RewriteRule ^forum/([0-9]+)$ forum?num=$1 

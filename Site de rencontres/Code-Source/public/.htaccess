@@ -1,0 +1,9 @@
+##
+## AUTORISER L'ACCÈS AU FICHIER .HTACCESS
+##
+<Files .htaccess>
+	order allow,deny
+	Allow from all
+	Satisfy Any
+</Files>
+

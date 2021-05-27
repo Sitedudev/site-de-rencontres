@@ -1,0 +1,9 @@
+{
+    "require": {
+        "michelf/php-markdown": "^1.7",
+        "defuse/php-encryption": "^2.1",
+        "erusev/parsedown": "^1.7",
+        "erusev/parsedown-extra": "^0.7.1",
+        "jbbcode/jbbcode": "1.3.*"
+    }
+}

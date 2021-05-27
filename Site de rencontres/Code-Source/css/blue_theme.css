@@ -1,0 +1,84 @@
+/* ---- Footer ---- */
+footer {
+	border-top: 1px solid #3498db;
+}
+.social-cust {
+	border: 1px solid #3498db;
+	color: #3498db;
+}
+.social-cust:hover, .social-cust:focus {
+	background: #3498db;
+}
+/* ---- End Footer ---- */
+/*
+/*
+/*
+/* ---- Automatic page loard ---- */
+.pace .pace-progress {
+	background: #3498db;
+}
+/* ---- End Automatic page loard ---- */
+/*
+/*
+/*
+/* ---- Custom navbar ---- */
+.navbar-btn-default{
+    color: #3498db;
+    border: 1px solid #3498db;
+}
+.navbar-btn-default:hover{
+	background: #3498db;
+}
+.navbar {
+	border: none;
+}
+.form-menu {
+	color: #3498db;
+	border: 1px solid #3498db !important;
+}
+.form-menu::placeholder{
+	color: #3498db;
+}
+.navbar-default {
+  border-color: #3498db;
+  border-bottom: 1px solid #3498db;
+}
+.navbar-default .navbar-brand {
+  color: #3498db;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: rgba(52, 152, 219, 0.8);
+}
+.navbar-default .navbar-nav > li > a {
+  color: #3498db;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: rgba(52, 152, 219, 0.8);
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  background-color: #3498db;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  background-color: #3498db;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #3498db;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #3498db;
+}
+
+@media (max-width: 767px) {
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+		background-color: #3498db;
+	}
+}
