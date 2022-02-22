@@ -1,6 +1,9 @@
 # site-de-rencontres
 
-À travers ce git, je vous propose un site de rencontre qui sera complet au fur et à mesure des mois !
+Salut à tous ! 😁
 
+Je vous propose à travers ce git de vous donner l'intégralité d'un code-source d'un site de rencontres.
+
+Celui-ci n'est pas 100% fonctionnel. 
 
 L'objectif et que vous ayez un site clé en main et fonctionnel.
