@@ -10,6 +10,10 @@
 		extract($_POST);
 		$valid = true;
 		
+		if(!isset($remember)){
+			$remember = null;
+		}
+
 		if (isset($_POST['signin'])){				
 			[$er_mail, $er_psw] = $__User->form_connexion($mail, $psw, $remember);
 		}
