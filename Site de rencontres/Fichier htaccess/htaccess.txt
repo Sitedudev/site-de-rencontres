@@ -41,8 +41,11 @@ RewriteRule ^deconnexion$                             logout
 
 RewriteRule ^profil$                             _profile/profile
 RewriteRule ^profil/demandes$                    _profile/request
+RewriteRule ^profil/amis$                  		 _profile/amis
+RewriteRule ^profil/modifier-mot-de-passe$		 _profile/password
+RewriteRule ^profil/modifier-avatar$		 	 _profile/avatar
 RewriteRule ^profil/([a-zA-Z0-9]+)$ 		     _profile/visitor?guid=$1
-RewriteRule ^profil/([a-zA-Z0-9]+)/([0-9]+)$      _profile/image?guid=$1&num=$2
+RewriteRule ^profil/([a-zA-Z0-9]+)/([0-9]+)$     _profile/image?guid=$1&num=$2
 RewriteRule ^parametres$             		     _profile/u_settings
 RewriteRule ^photo/([0-9]+)$             		 _profile/picture?num=$1
 
@@ -52,6 +55,10 @@ RewriteRule ^messagerie$                             _messagerie/boite
 RewriteRule ^messagerie/([a-zA-Z0-9]+)$              _messagerie/message?guid=$1
 RewriteRule ^messagerie/send-message$                _ajax/send_message [L,R=301]
 
+## PAGES DU DOSSIER _ADMIN
+RewriteRule ^admin/dashboard$                   _admin/a_dashboard
+RewriteRule ^admin/gest$                     	_admin/a_law
+RewriteRule ^admin/statut/([a-zA-Z0-9]+)$        _admin/a_state?guid=$1
 
 ## PAGES AUTRES
 #RewriteRule ^forum/([0-9]+)$ forum?num=$1 
