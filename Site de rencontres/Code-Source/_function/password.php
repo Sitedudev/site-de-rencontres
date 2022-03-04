@@ -9,6 +9,13 @@
 			
 		}
 		
+
+		public function crypt_pass($p_password){
+			$crypt_password = password_hash($p_password, PASSWORD_ARGON2ID);
+
+			return $crypt_password;
+		}
+
 		public function password($p_chaine){			
 			$p_chaine = crypt($p_chaine, '$6$rounds=5000$plfEsPZnDPOgYebFp3bCtMKkZsK2JkTCssQUY5fDqmD8SvAeWoM+MDVKr7hKNcKjaAAIwo3DpcKDKsK4QMKic81azeY4Mo6IwFZ=$');
 			return $p_chaine;

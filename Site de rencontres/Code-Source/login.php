@@ -1,12 +1,4 @@
 <?php
-	/**
-	 * @package			: Code source rencontres
-	 * @version			: 1.0
-	 * @author			: sitedudev aka clouder
-	 * @link 			: https://sitedudev.com
-	 * @since			: 2021
-	 * @license			: Attribution-NomCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
-	 */
 	include_once('include.php');
 	
 	if(isset($_SESSION['id'])){
@@ -14,18 +6,12 @@
 		exit;
 	}
 	
-	$mail = NULL;
-	$psw = NULL;
-	$remember = NULL;
-	$er_mail = NULL;
-	$er_psw = NULL;
-	
 	if(!empty($_POST)){
 		extract($_POST);
 		$valid = true;
 		
 		if (isset($_POST['signin'])){				
-			list($er_mail, $er_psw) = $__User->verif_connexion($mail, $psw, $remember);
+			[$er_mail, $er_psw] = $__User->form_connexion($mail, $psw, $remember);
 		}
 	}
 ?>
@@ -50,7 +36,7 @@
 						<h1>Se connecter</h1>
 						<form method="post">
 							<?php
-								if(isset($er_mail)){
+								if(isset($er_mail) && !empty($er_mail)){
 							?>
 							<div class="mess__err"><?= $er_mail ?></div>
 							<?php
@@ -59,7 +45,7 @@
 							<label for="mail">Mail</label>
 							<input type="email" id="mail" placeholder="Entrez votre mail" name="mail" value="<?php if(isset($mail) && !isset($_COOKIE['comail'])){ echo $mail; } if(isset($_COOKIE['comail'])){ echo urldecode($_COOKIE['comail']); }?>" required>
 							<?php
-								if(isset($er_psw)){
+								if(isset($er_psw) && !empty($er_psw)){
 							?>
 							<div class="mess__err"><?= $er_psw ?></div>
 							<?php

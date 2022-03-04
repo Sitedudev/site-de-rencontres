@@ -1,8 +1,4 @@
-<?php
-/*
- * @author Sitedudev
- */
-?>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="<?= URL ?>">
@@ -31,73 +27,24 @@
 				<li class="nav-item">
 					<a href="<?= URL . "messagerie" ?>"><i class="fa fa-comments-o"></i><sup><?= $__Notification->notif_mess() ?></sup> Messages</a>
 				</li>
-				<li class="nav-item">
-					<a href="" data-bs-toggle="modal" data-bs-target="#settings"><i class="fa fa-cog"></i> Paramètres</a>
-				</li>
-				<div id="settings" class="modal fade">
-					<div class="modal-dialog" role="document">
-						<form method="post" class="modal-content animate" action="" style="padding-top: 10px">
-							<button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true" style="right: 15px;">&times;</button>
-							
-							<div class="container-fluid">
-								<h3 style="margin-top: 0">Paramètres</h3>
-								
-								<div class="row" style="margin-bottom: 20px;font-size: 16px">
-									<div class="col-xs-2 col-sm-2 col-md-2" style="border: 1px solid #CCC; border-left: none; text-align: center; color: #666; padding: 12px 0;">
-										<i class="fa fa-user-circle-o"></i>
-									</div>
-									
-									<div class="col-xs-10 col-sm-10 col-md-10" style="padding: 12px 10px; border: 1px solid #CCC; border-left: none; border-right: none">
-										<a href="<?= URL ?>profil" style="color: #666; text-decoration: none">Mon profil</a>
-									</div>
-								</div>
-								
-								<div class="row" style="margin-bottom: 20px;font-size: 16px">
-									<div class="col-xs-2 col-sm-2 col-md-2" style="border: 1px solid #CCC; border-left: none; text-align: center; color: #666; padding: 12px 0;">
-										<i class="fa fa-cog"></i>
-									</div>
-									
-									<div class="col-xs-10 col-sm-10 col-md-10" style="padding: 12px 10px; border: 1px solid #CCC; border-left: none; border-right: none">
-										<a href="<?= URL ?>parametres" style="color: #666; text-decoration: none">Mes paramètres</a>
-									</div>
-								</div>
-								
-								<?php
-									if($_SESSION['role'] > 0){	
-								?>
-								
-								<div class="row" style="margin-bottom: 20px;font-size: 16px">
-									<div class="col-xs-2 col-sm-2 col-md-2" style="border: 1px solid #CCC; border-left: none; text-align: center; color: #666; padding: 12px 0;">
-										<i class="fa fa-th"></i>
-									</div>
-									
-									<div class="col-xs-10 col-sm-10 col-md-10" style="padding: 12px 10px; border: 1px solid #CCC; border-left: none; border-right: none">
-										<a href="<?= URL . "admin/dashboard" ?>" style="color: #666; text-decoration: none">Console</a>
-									</div>
-								</div>
-								
-								<?php
-									}	
-								?>
-								
-								<div class="row" style="margin-bottom: 20px;font-size: 16px">
-									<div class="col-xs-2 col-sm-2 col-md-2" style="border: 1px solid #CCC; border-left: none; text-align: center; color: #666; padding: 12px 0;">
-										<i class="fa fa-power-off"></i>
-									</div>
-									
-									<div class="col-xs-10 col-sm-10 col-md-10" style="padding: 12px 10px; border: 1px solid #CCC; border-left: none; border-right: none">
-										<a href="<?= URL ?>deconnexion" style="color: #666; text-decoration: none">Déconnexion</a>
-									</div>
-								</div>	
-													
-							</div>
-							
-							<div class="container-fluid" style="background-color:#f1f1f1; padding: 10px;">
-								<button type="button" data-bs-dismiss="modal" class="cancelbtn">Annuler</button>
-							</div>
-						</form>
-					</div>
-				</div>
+				<li class="nav-item dropdown">
+		        	<a class="dropdown-toggle menu__dropdown__toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="menu__profile"><?= $_SESSION['pseudo'] ?><span class="menu__profile__img"><img src="<?= URL . $__User->getAvatar($_SESSION['guid']) ?>" width="35" style="width: 35px; border-radius: 100px"/></span></span>
+		        	</a>
+		        	<ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarScrollingDropdown">
+		            	<li><a class="dropdown-item" href="<?= URL ?>profil">Profil</a></li>
+		            	<li><a class="dropdown-item" href="<?= URL ?>parametres">Paramètres</a></li>
+		            	<?php
+							if($_SESSION['role'] > 0){	
+						?>
+		            	<li><hr class="dropdown-divider"></li>
+		            	<li><a class="dropdown-item" href="<?= URL ?>admin/dashboard">Dashboard</a></li>
+		            	<?php
+		            		}
+		            	?>
+		            	<li><hr class="dropdown-divider"></li>
+		            	<li><a class="dropdown-item" href="<?= URL ?>deconnexion">Déconnexion</a></li>
+		        	</ul>
+		        </li>
 				<?php 
 					}else{
 				?>
@@ -118,9 +65,22 @@
 	if(isset($_SESSION['flash'])){ 
 		foreach($_SESSION['flash'] as $type => $message){
 ?>
-<div id="alert" class="alert alert-<?= $type; ?> infoMessage"><a class="closef">X</span></a>
-	<?= $message; ?>
-</div>	
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+	<div class="toast-header">
+		<svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
+		<strong class="me-auto">Notification</strong>
+		<small></small>
+		<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+	</div>
+	<div class="toast-body">
+		<?= $message; ?>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		toastList.forEach(Toastshow);
+	})
+</script>
 <?php
 		}
 		unset($_SESSION['flash']);

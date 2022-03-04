@@ -32,30 +32,18 @@
 			<div class="row">
 				<div class="col-12 col-md-12 col-xl-12" style="margin: 20px 0">
 					<h1 style="margin-bottom: 20px">Venez comme vous êtes !</h1>
-					<i class="fa fa-venus-mars fa-size"></i>
-					<i class="fa fa-venus-double fa-size"></i>
-					<i class="fa fa-venus fa-size"></i>
-					<i class="fa fa-transgender-alt fa-size"></i>
-					<i class="fa fa-transgender fa-size"></i>
-					<i class="fa fa-neuter fa-size"></i>
-					<i class="fa fa-mercury fa-size"></i>
-					<i class="fa fa-mars-stroke-v fa-size"></i>
-					<i class="fa fa-mars-stroke-h fa-size"></i>
-					<i class="fa fa-mars-stroke fa-size"></i>
-					<i class="fa fa-mars-double fa-size"></i>
-					<i class="fa fa-mars fa-size"></i>
 				</div>
 				<div class="col-12 col-md-12 col-xl-6">
-			    	<h2>Plus cool <i class="fa fa-beer"></i></h2>
-					<i class="fa fa-codepen" style="font-size: 40px; color: transparent; -webkit-background-clip: text; background-clip: text; background-image: linear-gradient(to right, #e74c3c,#f39c12);"></i>
+			    	<h2>Plus cool</h2>
+					<i class="bi bi-arrow-through-heart" style="font-size: 40px; color: transparent; -webkit-background-clip: text; background-clip: text; background-image: linear-gradient(to right, #e74c3c,#f39c12);"></i>
 				</div>
 				<div class="col-12 col-md-12 col-xl-6">
-				    <h2>Plus rapide <i class="fa fa-plane"></i></h2>
-					<i class="fa fa-tachometer" style="font-size: 40px; color: transparent; -webkit-background-clip: text; background-clip: text; background-image: linear-gradient(to right, #e74c3c,#f39c12);"></i>
+				    <h2>Plus rapide</h2>
+					<i class="bi bi-hand-thumbs-up" style="font-size: 40px; color: transparent; -webkit-background-clip: text; background-clip: text; background-image: linear-gradient(to right, #e74c3c,#f39c12);"></i>
 				</div>
 			</div>
 			<section style="text-align: center">
-				<i class="fa fa-gg" style="font-size: 150px; color: transparent; -webkit-background-clip: text; background-clip: text; background-image: linear-gradient(to right, #e74c3c,#f39c12);"></i>			
+				<i class="bi bi-link-45deg" style="font-size: 150px; color: transparent; -webkit-background-clip: text; background-clip: text; background-image: linear-gradient(to right, #e74c3c,#f39c12);"></i>			
 				<h1>Créer de nouveaux liens</h1>
 			</section>
 		</div>
@@ -74,9 +62,10 @@
 								$req = $DB->prepare("SELECT u.*, o.id as is_online
 									FROM user u
 									LEFT JOIN online o ON o.pseudo_id = u.id
+									WHERE u.id <> ? 
 									ORDER BY u.date_registration DESC 
 									LIMIT 0, 12");
-								$req->execute(array());
+								$req->execute([$_SESSION['id']]);
 								
 								$chose_color = 0;
 								

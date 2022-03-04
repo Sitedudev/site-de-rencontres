@@ -1,8 +1,5 @@
 <?php
-	/*
-	 * @author Sitedudev
-	*/
-	
+
 	include_once('../include.php');	
 	
 	if (!isset($_SESSION['guid'])){

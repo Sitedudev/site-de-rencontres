@@ -21,6 +21,7 @@
 	include ('_function/insulte.php');
 	include ('_function/notification.php');
 	include ('_function/time.php');
+	include ('_function/image.php');
 	
 	include('library/vendor/autoload.php');
 	
@@ -38,8 +39,9 @@
 	$__Notification 	= new Notification;
 	$__GUID 			= new Guid;
 	$__Email			= new Email;
-	$__Insulte			= new Insulte;
 	$__Time				= new Time;
+	$__Image			= new Image;
+	$__Insulte			= new Insulte;
 	
 	define("URL", $__Domain->domain());
 	define("CURRENT_URL",  $__Domain->current_url());

@@ -1,7 +1,5 @@
 <?php
-	/*
-	 * @author Sitedudev
-	 */
+
 	include_once('../include.php');	
 	
 	if (!isset($_SESSION['id'])){
@@ -16,9 +14,11 @@
 		exit;
 	}
 	
-	$verif_guid_profile = $DB->prepare("SELECT * 
-		FROM user 
-		WHERE guid = ?");
+	$verif_guid_profile = $DB->prepare("SELECT u.* , d.departement_nom
+		FROM user u
+		LEFT JOIN departement d ON d.departement_code = u.departement_code
+		WHERE u.guid = ?");
+
 	$verif_guid_profile->execute(array($guid_profile));
 	
 	$info_profile = $verif_guid_profile->fetch();
@@ -175,50 +175,40 @@
 		<?php
 			include_once('../menu.php');
 		?>
-		<div class="container" style="color: #666">
-			<div class="row">
-				<div class="col-12 col-md-4 col-xl-3" style="text-align: center;">
-					<img src="<?= URL . $__User->getAvatar($info_profile['guid'])?>" width="120" style="width: 120px; border-radius: 100px"/>
-				</div>
-				<div class="col-12 col-md-8 col-xl-9">
-					<?php
-						$rep_online = $__Online->is_online($info_profile['date_connection']);	
-						
-						if($rep_online == 1){
-					?>
-						<span class="fa fa-circle" style="transform: translate(0, -4px); color: #2ecc71"></span>
-					<?php
-						}elseif($rep_online == 2){
-					?>	
-						<span class="fa fa-circle" style="transform: translate(0, -4px); color: #e67e22"></span>
-					<?php
-						}else{
-					?>
-						<span class="fa fa-circle" style="transform: translate(0, -4px)"></span>
-					<?php
-						}
-					?>
-					<span style="font-size: 28px"><?= $info_profile['pseudo'] ?>,</span>
-					<span style="font-size: 22px"><?= $__Crypt_password->age($info_profile['birthday']) ?> ans</span>
-					
-					<a href="<?= URL ?>profil/demandes" style="text-decoration: none; color: #666">
-						<section style="border: 1px solid;border-radius: 20px;position: relative;padding: 5px 0">
-							<i class="fa fa-users" style="border: 1px solid;border-radius: 100px;padding: 10px;font-size:20px;position: absolute;top: -5px;left: -12px;background: #FAFAFA;"></i>
-							<?php
-								$show_demande = $DB->prepare("SELECT * 
-									FROM relation 
-									WHERE id_to = ? AND statut = 1");
-								$show_demande->execute(array($_SESSION['id']));
-									
-								$show_demande = $show_demande->fetchAll();
-								
-								$count_demande = count($show_demande);
-							?>
-							
-							<span style="padding-left: 40px"><span class="badge"><?= $count_demande?></span> Gérer mes amis</span>
-							<div style="position: absolute;width: 70px;height: 30px;border: 15px solid transparent;border-top-color: #666666;border-right-color: #666666;border-bottom-color: #666666;top: 0;border-radius: 0 20px 20px 0;right: -1px;"></div>
-						</section>
-					</a>
+		<div style="position: relative; border-bottom: 2px solid #ecf0f1; z-index: 0;">
+			<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background-image: url(<?= URL . $__User->getAvatar($info_profile['guid']) ?>); background-repeat: no-repeat; background-position: center; background-size: cover;"></div>
+			<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background: rgba(255, 255, 255, .7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px)"></div>
+			<div class="container">
+				<div class="row">
+					<div class="col-12 col-md-12 col-xl-12">
+						<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 20px 0">
+							<img src="<?= URL . $__User->getAvatar($info_profile['guid']) ?>" width="120" style="width: 120px; border-radius: 100px"/>
+							<div style="font-size: 1.2rem; margin-top: 5px; display: flex; flex-direction: column; align-items: center;">
+								<div>
+									<?php
+										$rep_online = $__Online->is_online($info_profile['date_connection']);	
+										
+										if($rep_online == 1){
+									?>
+										<span class="bi bi-circle" style="transform: translate(0, -4px); color: #2ecc71"></span>
+									<?php
+										}elseif($rep_online == 2){
+									?>	
+										<span class="bi bi-circle" style="transform: translate(0, -4px); color: #e67e22"></span>
+									<?php
+										}else{
+									?>
+										<span class="bi bi-circle" style="transform: translate(0, -4px)"></span>
+									<?php
+										}
+									?>
+									<span style="font-weight: bold;"><?= $info_profile['pseudo'] ?>,</span>
+									<span><?= $__Crypt_password->age($info_profile['birthday']) ?> ans</span>
+								</div>
+								<div><?= $info_profile['departement_nom'] ?></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -227,7 +217,7 @@
 				<div class="col-6 col-md-4 col-xl-3 effectArt" style="margin: 20px 0; text-align: center">		
 					<div style="background: #EEEEEE; width: 100%; padding-bottom: 100%; position: relative">
 						<button type="button" class="" data-bs-toggle="modal" data-bs-target="#action" style="position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);background: transparent; border: none; font-size: 60px; outline: none">
-							<i class="fa fa-ioxhost"></i>
+							<i class="bi bi-plus-circle-dotted"></i>
 						</button>
 						<label style="position: absolute; top: 10px; left: 0;right: 0; font-size: 18px">Action</label>
 					</div>

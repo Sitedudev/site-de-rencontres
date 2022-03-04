@@ -1,12 +1,4 @@
 <?php 
-/**
- * @package			: Code source rencontres
- * @version			: 0.7
- * @author			: sitedudev aka clouder
- * @link 			: https://sitedudev.com
- * @since			: 2021
- * @license			: Attribution-NomCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
- */
 class Domain {
 		
 	private $_url = "";

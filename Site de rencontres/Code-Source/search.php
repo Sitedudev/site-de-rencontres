@@ -1,12 +1,4 @@
 <?php
-	/**
-	 * @package			: Code source rencontres
-	 * @version			: 1.0
-	 * @author			: sitedudev aka clouder
-	 * @link 			: https://sitedudev.com
-	 * @since			: 2021
-	 * @license			: Attribution-NomCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
-	 */
 	include_once('include.php');
 	
 	if (!isset($_SESSION['id'])){
@@ -29,11 +21,7 @@
 	$var_search_sex = (String) "";
 	$var_search_dept = (String) "";
 	
-	$verif_memo_search = false;
-	
 	if(isset($memo_search['id'])){
-		
-		$verif_memo_search = true;
 		
 		if($memo_search['sex'] > 0){
 			$search_sex = "u.sexe = ";
@@ -54,27 +42,18 @@
 	
 	$search_profile->execute(array($_SESSION['guid'], $var_search_sex, $var_search_dept));
 
-	
 	if(!empty($_POST)){
 		extract($_POST);
 		$valid = true;
 		
 		if(isset($_POST['srch'])){
 			
-			// ---- verif sex
-			if(!isset($sex)){
-				$er_sex = "Sélectionner un sexe";
-			
-			}elseif($sex == 0){	
-				$sex = 0; // 0 : ALL
-				
-			}elseif($sex == 1){
-				$sex = 1; // 1 : Man
-				//$checked = "";				
-				
-			}else{
-				$sex = 2; // 2 : Women
-				//$checked = "checked";
+			$sex = (int) $sex;
+			$dep = (String) trim($dep);
+
+			if(!in_array($sex, [0, 1, 2, 3])) {
+				$valid = false;
+				$er_sex = ("Ce champ ne peut pas être vide");
 			}
 			
 			// ---- verif département
@@ -82,32 +61,28 @@
 				$valid = false;
 				$er_dep = "Un département est obligatoire";
 				
-			}else{
+			}elseif($dep <> 0){
+					
+				$req_dep = $DB->prepare("SELECT departement_code as a, departement_nom as c 
+					FROM departement 
+					WHERE departement_code = ?");
+				$req_dep->execute(array($dep));
 				
-				if($dep <> 0){
+				$req_dep = $req_dep->fetch();
+				
+				if ($req_dep['a'] == ""){
+					$valid = false;
+					$er_dep = "Le département n'existe pas";
 					
-					$req_dep = $DB->prepare("SELECT departement_code as a, departement_nom as c 
-						FROM departement 
-						WHERE departement_code = ?");
-					$req_dep->execute(array($dep));
-					
-					$req_dep = $req_dep->fetch();
-					
-					if ($req_dep['a'] == ""){
-						$valid = false;
-						$er_dep = "Le département n'existe pas";
-						
-					}else{
-						$code_dep = $req_dep['a'];
-					}
 				}else{
-					$code_dep = 0;
+					$code_dep = $req_dep['a'];
 				}
+			}else{
+				$code_dep = 0;
 			}
 
 			if($valid){
-					
-				if($verif_memo_search){				
+				if($memo_search){				
 					$req = $DB->prepare("UPDATE memo_search SET sex = ?, departement_code = ? WHERE pseudo_id = ?");
 					$req->execute(array($sex, $code_dep, $_SESSION['id']));
 				}else{
@@ -116,7 +91,7 @@
 				}
 				
 				$_SESSION['flash']['success'] = "Nouvelle recherche enregistrée";
-				header('Location: ' . URL . 'search');
+				header('Location:' . CURRENT_URL);
 				exit;
 			}
 		}
@@ -208,7 +183,7 @@
 							</select>
 						</div>
 						<div class="col-12 col-md-12 col-xl-12" style="text-align: center">
-							<input type="submit" name="srch" class="fa" value="&#xf140;" style="border: none; background: transparent; font-size: 30px; outline: none"/>
+							<button type="submit" name="srch" style="border: 2px solid #ecf0f1; border-radius: 6px; background: transparent; outline: none">Rechercher</button>
 						</div>
 					</div>
 				</form>

@@ -130,7 +130,7 @@
 								<div style="display: flex; flex-direction: row;">
 					            <textarea class="autoExpand" rows="1" data-min-rows="1" name="texte" id="message" class="msg" placeholder="Envoyer votre message" style="border: none;overflow: none; resize: none; width: 100%; outline: none; padding: 0 5px; border: 1px solid #eee; border-radius: 6px; max-height: 300px"></textarea>
 					            <div style="font-size: 2rem">
-						            <input id="envoi" type="submit" class="fa fa-arrow-circle-up" value="&#xf0aa;" style="border: none; color: #3498db; background: transparent; outline: none"/>
+						            <button id="envoi" type="submit" style="border: none; color: #3498db; background: transparent; outline: none"><i class="bi bi-send"></i></button>
 					            </div>	   
 								</div>
 					        </form>	

@@ -1,13 +1,4 @@
 <?php
-	/**
-	 * @package			: Code source rencontres
-	 * @version			: 0.7
-	 * @author			: sitedudev aka clouder
-	 * @link 			: https://sitedudev.com
-	 * @since			: 2021
-	 * @license			: Attribution-NomCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
-	 */
-	
 	include_once('../include.php');		
 	
 	if (!isset($_SESSION['guid'])){
@@ -32,6 +23,20 @@
 	if(!isset($a['name'])){
 		header('Location: ' . URL . 'profil');
 		exit;
+	}
+
+	$req = $DB->prepare("SELECT COUNT(id) AS NbDemandes 
+		FROM relation 
+		WHERE id_to = ? AND statut = 1");
+	
+	$req->execute([$_SESSION['id']]);
+		
+	$count_demande = $req->fetch();
+
+	$lib_demande = "";
+
+	if($count_demande['NbDemandes'] > 0){
+		$lib_demande = '<span class="badge badge__profile">' . $count_demande['NbDemandes'] . '</span>'; 
 	}
 	
 	if(!empty($_POST)){
@@ -90,32 +95,44 @@
 		<?php
 			include_once('../menu.php');
 		?>
-		<div class="container" style="color: #666; padding-bottom: 25px;">
-			<div class="col-12 col-md-4 col-xl-3" style="text-align: center;">
-				<img src="<?= URL . $__User->getAvatar($_SESSION['guid']) ?>" width="120" style="width: 120px; border-radius: 100px"/>
+		<div style="position: relative; border-bottom: 2px solid #ecf0f1; z-index: 0;">
+			<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background-image: url(<?= URL . $__User->getAvatar($_SESSION['guid']) ?>); background-repeat: no-repeat; background-position: center; background-size: cover;"></div>
+			<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; background: rgba(255, 255, 255, .7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px)"></div>
+			<div class="container">
+				<div class="row">
+					<div class="col-12 col-md-12 col-xl-12">
+						<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin: 20px 0">
+							<img src="<?= URL . $__User->getAvatar($_SESSION['guid']) ?>" width="120" style="width: 120px; border-radius: 100px"/>
+							<div style="font-size: 1.2rem; margin-top: 5px;">
+								<span style="font-weight: bold;"><?= $_SESSION['pseudo'] ?>,</span>
+								<span><?= $__Crypt_password->age($_SESSION['birthday']) ?> ans</span>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="col-12 col-md-8 col-xl-9">
-				<span style="font-size: 28px"><?= $_SESSION['pseudo'] ?>,</span>
-				<span style="font-size: 22px"><?= $__Crypt_password->age($_SESSION['birthday']) ?> ans</span>
-				<a href="settings" style="color: #666;font-size: 16px; text-decoration: none"><i class="fa fa-cog"></i></a>
-				<a href="request" style="text-decoration: none; color: #666">
-					<section style="border: 1px solid;border-radius: 20px;position: relative;padding: 5px 0">
-						<i class="fa fa-users" style="border: 1px solid;border-radius: 100px;padding: 10px;font-size:20px;position: absolute;top: -5px;left: -12px;background: #FAFAFA;"></i>
-						<?php
-							$show_demande = $DB->prepare("SELECT * 
-								FROM relation 
-								WHERE id_to = ? AND statut = 1");
-							$show_demande->execute(array($_SESSION['id']));
-								
-							$show_demande = $show_demande->fetchAll();
-							
-							$count_demande = count($show_demande);
-						?>
-						
-						<span style="padding-left: 40px"><span class="badge"><?= $count_demande?></span> Gérer mes amis</span>
-						<div style="position: absolute;width: 70px;height: 30px;border: 15px solid transparent;border-top-color: #666666;border-right-color: #666666;border-bottom-color: #666666;top: 0;border-radius: 0 20px 20px 0;right: -1px;"></div>
-					</section>
-				</a>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+					<div class="profile__bar__body">
+						<a href="<?= URL ?>profil" class="profile__bar__link">
+							<div class="profile__bar__text profile__bar__text__checked">
+								<span>Profil</span>
+								<div class="profile__bar__bar"></div>
+							</div>
+						</a>
+						<a href="<?= URL ?>profil/amis" class="profile__bar__link">
+							<div class="profile__bar__text">Mes amis</div>
+						</a>
+						<a href="<?= URL ?>profil/demandes" class="profile__bar__link">
+							<div class="profile__bar__text">Mes demandes <?= $lib_demande ?></div>
+						</a>
+						<a href="<?= URL ?>parametres" class="profile__bar__link">
+							<div class="profile__bar__text">Mes paramètres</div>
+						</a>
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -140,7 +157,7 @@
 					<form method="post" action="">
 						<input type="hidden" name="nameimg" value="<?= $a['name'] ?>"/>
 						<div style="border: 2px solid #d35400; width: 70px;border-radius: 100px;height: 70px;">
-							<input type="submit" name="dlt" class="fa" value="&#xf014;" style="font-size: 45px;border: none;color: #d35400;border-radius: 100px; padding: 10px 15.5px;background: transparent;outline: none"/>
+							<button type="submit" name="dlt" style="font-size: 45px;border: none;color: #d35400;border-radius: 100px; padding: 10px 15.5px;background: transparent;outline: none"><i class="bi bi-trash"></i></button>
 						</div>
 					</form>
 					<!--

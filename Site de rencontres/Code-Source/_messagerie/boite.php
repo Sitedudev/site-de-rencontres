@@ -1,8 +1,5 @@
 <?php
-	/*
-	 * @author Sitedudev
-	 */
-	 
+
 	include_once('../include.php');
 	
 	if(!isset($_SESSION['guid'])){
@@ -10,7 +7,7 @@
 		exit;
 	}	
 	
-	$nb_affiche_max = (int) 5;
+	$nb_affiche_max = (int) 15;
 	$nb_total_amis = (int) 0;
 	
 	$req = $DB->prepare("SELECT COUNT(id) AS nb_amis
@@ -28,7 +25,7 @@
 			SELECT IF(r.id_from = :id, r.id_to, r.id_from) id_utilisateur, MAX(m.id) max_id
 			FROM relation r
 			LEFT JOIN messagerie m ON ((m.id_from, m.id_to) = (r.id_from, r.id_to) OR (m.id_from, m.id_to) = (r.id_to, r.id_from))
-			WHERE (r.id_from = :id OR r.id_to = :id) AND r.statut = 2
+			WHERE (r.id_from = :id OR r.id_to = :id) AND r.statut = 2 AND r.id_block = 0
 			GROUP BY IF(m.id_from = :id, m.id_to, m.id_from), r.id) AS DM
 		LEFT JOIN messagerie m ON m.id = DM.max_id
 		LEFT JOIN user u ON u.id = DM.id_utilisateur
@@ -46,7 +43,7 @@
 		<?php
 			include('../_head/meta.php');
 		?>
-        <title>Messagerie | Daewen</title>
+        <title>Messagerie | Daewen</title>
         <?php
 			include('../_head/link.php');
 			include('../_head/script.php');
